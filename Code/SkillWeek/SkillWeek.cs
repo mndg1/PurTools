@@ -117,7 +117,11 @@ namespace PurTools.SkillWeek
             if (migrate)
                 Directory.Move(DefaultDirectory, newPath);
 
-            ConfigurationManager.AppSettings["skillWeekDirectory"] = newPath;
+            var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            config.AppSettings.Settings.Remove("skillWeekDirectory");
+            config.AppSettings.Settings.Add("skillWeekDirectory", newPath);
+            config.Save();
+            ConfigurationManager.RefreshSection("appSettings");
         }
 
         /// <summary>
