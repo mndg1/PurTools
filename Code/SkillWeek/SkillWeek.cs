@@ -21,20 +21,11 @@ namespace PurTools.SkillWeek
                 return dir;
             }
         }
-        private string _directory;
         private readonly string _label;
 
         private SkillWeekData _skillWeekData = new();
 
-        internal SkillWeek(string label)
-        {
-            _directory = DefaultDirectory;
-
-            if (!Directory.Exists(_directory))
-                Directory.CreateDirectory(_directory);
-
-            _label = label;
-        }
+        internal SkillWeek(string label) => _label = label;
 
         /// <summary>
         /// Creates a new SkillWeek object
@@ -94,6 +85,12 @@ namespace PurTools.SkillWeek
         public static async Task<SkillWeek> LoadAsync(string label, string directory)
         {
             string path = Path.Combine(directory, $"{label}.json");
+
+            if(!Directory.Exists(directory))
+            {
+                Logger.Current.Error($"Directory \"{directory}\" does not exits.");
+                throw new DirectoryNotFoundException();
+            }
 
             if (!File.Exists(path))
             {
@@ -155,9 +152,17 @@ namespace PurTools.SkillWeek
         /// <summary>
         /// Saves the SkillWeek's data to a JSON file
         /// </summary>
-        public async Task SaveAsync()
+        public async Task SaveAsync() => await SaveAsync(DefaultDirectory);
+
+        /// <summary>
+        /// Saves the SkillWeek's data to a JSON file
+        /// </summary>
+        public async Task SaveAsync(string directory)
         {
-            using var writer = File.Create(Path.Combine(_directory, $"{_label}.json"));
+            if(!Directory.Exists(directory))
+                Directory.CreateDirectory(directory);
+
+            using var writer = File.Create(Path.Combine(directory, $"{_label}.json"));
             await JsonSerializer.SerializeAsync(writer, _skillWeekData);
             await writer.DisposeAsync();
         }
