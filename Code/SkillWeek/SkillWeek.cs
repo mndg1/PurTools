@@ -227,7 +227,7 @@ namespace PurTools.SkillWeek
             // skillData structure: [ global rank, skill level, experience ]
             string[] skillData = stats[Skills.GetSkillIndex(_skillWeekData.SkillName)].Split(",");
             int experience = Convert.ToInt32(skillData[2]);
-            int gains = experience - (participant.StartExperience + participant.GetTotalGains());
+            int gains = experience - (participant.StartExperience + participant.TotalGains);
             participant.Gains[_skillWeekData.DaysActive] += gains;
         }
 
