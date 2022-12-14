@@ -11,10 +11,7 @@
         /// <summary>The experience gains that the participant earned each day of the SkillWeek</summary>
         public int[] Gains { get; set; } = new int[7];
 
-        public int TotalGains
-        {
-            get => Gains.Sum();
-        }
+        public int TotalGains => Gains.Sum();
 
         /// <param name="threshold">The experience threshold that needs to be reached to participate succesfully</param>
         /// <returns>The amount of days that the participant has breaced the threshold</returns>
