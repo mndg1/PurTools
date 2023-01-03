@@ -36,13 +36,8 @@ namespace PurTools.SkillWeek
         /// <param name="entryThreshold">The minimum amount of experience that participants must earn each day
         ///                              in order to have particpated</param>
         /// <returns>Newly created SkillWeek object</returns>
-        public static async Task<SkillWeek> CreateAsync(string skillName, string label = "")
-        {
-            if (string.IsNullOrWhiteSpace(label))
-                label = skillName;
-
-            return await CreateAsync(skillName, DefaultDirectory, label);
-        }
+        public static async Task<SkillWeek> CreateAsync(string skillName, string label = "") 
+            => await CreateAsync(skillName, DefaultDirectory, label);
 
         /// <summary>
         /// Creates a new SkillWeek object
@@ -55,10 +50,11 @@ namespace PurTools.SkillWeek
         /// <returns>Newly created SkillWeek object</returns>
         public static async Task<SkillWeek> CreateAsync(string skillName, string directory, string label)
         {
-            if (!Directory.Exists(directory))
-                Directory.CreateDirectory(directory);
-            else
-                label = Utility.GetUniqueFileLabel(directory, ".json", label);
+            if (string.IsNullOrWhiteSpace(label))
+                label = skillName;
+
+            if (!Directory.Exists(directory)) Directory.CreateDirectory(directory);
+            else label = Utility.GetUniqueFileLabel(directory, ".json", label);
 
             var skillWeek = new SkillWeek(label);
             skillWeek._skillWeekData.SkillName = skillName;
