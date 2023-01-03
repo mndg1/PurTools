@@ -21,6 +21,7 @@ namespace PurTools.SkillWeek
                 return dir;
             }
         }
+
         private readonly string _label;
 
         private SkillWeekData _skillWeekData = new();
@@ -35,12 +36,12 @@ namespace PurTools.SkillWeek
         /// <param name="entryThreshold">The minimum amount of experience that participants must earn each day
         ///                              in order to have particpated</param>
         /// <returns>Newly created SkillWeek object</returns>
-        public static async Task<SkillWeek> CreateAsync(string skillName, string label = "", int entryThreshold = 0)
+        public static async Task<SkillWeek> CreateAsync(string skillName, string label = "")
         {
             if (string.IsNullOrWhiteSpace(label))
                 label = skillName;
 
-            return await CreateAsync(skillName, DefaultDirectory, label, entryThreshold);
+            return await CreateAsync(skillName, DefaultDirectory, label);
         }
 
         /// <summary>
@@ -52,7 +53,7 @@ namespace PurTools.SkillWeek
         /// <param name="entryThreshold">The minimum amount of experience that participants must earn each day
         ///                              in order to have particpated</param>
         /// <returns>Newly created SkillWeek object</returns>
-        public static async Task<SkillWeek> CreateAsync(string skillName, string directory, string label, int entryThreshold)
+        public static async Task<SkillWeek> CreateAsync(string skillName, string directory, string label)
         {
             if (!Directory.Exists(directory))
                 Directory.CreateDirectory(directory);
@@ -61,7 +62,6 @@ namespace PurTools.SkillWeek
 
             var skillWeek = new SkillWeek(label);
             skillWeek._skillWeekData.SkillName = skillName;
-            skillWeek._skillWeekData.EntryThreshold = entryThreshold;
             await skillWeek.SaveAsync();
 
             return skillWeek;
