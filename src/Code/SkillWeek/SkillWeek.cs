@@ -51,6 +51,13 @@ namespace PurTools.SkillWeek
         /// <returns>Newly created SkillWeek object</returns>
         public static async Task<SkillWeek> CreateAsync(string skillName, string directory, string label)
         {
+            // Checks if a skill with skillName exists
+            if (Skills.GetSkillIndex(skillName) == -1)
+            {
+                Logger.Current.Error($"{skillName} is not a valid skill.");
+                throw new ArgumentException();
+            }
+
             if (string.IsNullOrWhiteSpace(label))
                 label = skillName;
 
