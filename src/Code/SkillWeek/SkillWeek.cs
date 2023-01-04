@@ -23,6 +23,7 @@ namespace PurTools.SkillWeek
         }
 
         private readonly string _label;
+        public string Label { get => _label; }
 
         private SkillWeekData _skillWeekData = new();
 
