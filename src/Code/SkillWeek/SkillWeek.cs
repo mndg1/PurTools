@@ -35,7 +35,7 @@ namespace PurTools.SkillWeek
         /// <param name="skillName">Name of the SkillWeek's subject skill</param>
         /// <param name="label">Optional custom name for the SkillWeek</param>
         /// <returns>Newly created SkillWeek object</returns>
-        public static async Task<SkillWeek> CreateAsync(string skillName, string label = "") 
+        public static async Task<SkillWeek?> CreateAsync(string skillName, string label = "") 
             => await CreateAsync(skillName, DefaultDirectory, label);
 
         /// <summary>
@@ -45,13 +45,13 @@ namespace PurTools.SkillWeek
         /// <param name="directory">Optional directory path where the SkillWeek data should be stored</param>
         /// <param name="label">Optional custom name for the SkillWeek</param>
         /// <returns>Newly created SkillWeek object</returns>
-        public static async Task<SkillWeek> CreateAsync(string skillName, string directory, string label)
+        public static async Task<SkillWeek?> CreateAsync(string skillName, string directory, string label)
         {
             // Checks if a skill with skillName exists
             if (Skills.GetSkillIndex(skillName) == -1)
             {
                 Logger.Current.Error($"{skillName} is not a valid skill.");
-                throw new ArgumentException();
+                return null;
             }
 
             if (string.IsNullOrWhiteSpace(label))
@@ -72,8 +72,7 @@ namespace PurTools.SkillWeek
         /// </summary>
         /// <param name="label">Name of the SkillWeek to load</param>
         /// <returns>SkillWeek loaded with the saved data</returns>
-        /// <exception cref="FileNotFoundException"></exception>
-        public static async Task<SkillWeek> LoadAsync(string label) => await LoadAsync(label, DefaultDirectory);
+        public static async Task<SkillWeek?> LoadAsync(string label) => await LoadAsync(label, DefaultDirectory);
 
         /// <summary>
         /// Loads an existing SkillWeek object
@@ -81,21 +80,20 @@ namespace PurTools.SkillWeek
         /// <param name="label">Name of the SkillWeek to load</param>
         /// <param name="directory">Directory in which the SkillWeek's data is stored</param>
         /// <returns>SkillWeek loaded with the saved data</returns>
-        /// <exception cref="FileNotFoundException"></exception>
-        public static async Task<SkillWeek> LoadAsync(string label, string directory)
+        public static async Task<SkillWeek?> LoadAsync(string label, string directory)
         {
             string path = Path.Combine(directory, $"{label}.json");
 
             if(!Directory.Exists(directory))
             {
                 Logger.Current.Error($"Directory \"{directory}\" does not exits.");
-                throw new DirectoryNotFoundException();
+                return null;
             }
 
             if (!File.Exists(path))
             {
                 Logger.Current.Error($"No skillweek with label \"{label}\" was found.");
-                throw new FileNotFoundException();
+                return null;
             }
 
             var skillWeek = new SkillWeek(label);
