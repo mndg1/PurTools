@@ -3,13 +3,13 @@
     public class Participant
     {
         /// <summary>RuneScape username of the participant</summary>
-        public string Name { get; set; }
+        public string Name { get; internal set; }
         
         /// <summary>Amount of experience the participant had when joining the SkillWeek</summary>
-        public int StartExperience { get; set; }
+        public int StartExperience { get; internal set; }
         
         /// <summary>The experience gains that the participant earned each day of the SkillWeek</summary>
-        public int[] Gains { get; set; } = new int[7];
+        public int[] Gains { get; internal set; } = new int[7];
 
         public int TotalGains => Gains.Sum();
 
