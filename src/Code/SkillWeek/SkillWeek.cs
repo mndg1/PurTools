@@ -34,8 +34,6 @@ namespace PurTools.SkillWeek
         /// </summary>
         /// <param name="skillName">Name of the SkillWeek's subject skill</param>
         /// <param name="label">Optional custom name for the SkillWeek</param>
-        /// <param name="entryThreshold">The minimum amount of experience that participants must earn each day
-        ///                              in order to have particpated</param>
         /// <returns>Newly created SkillWeek object</returns>
         public static async Task<SkillWeek> CreateAsync(string skillName, string label = "") 
             => await CreateAsync(skillName, DefaultDirectory, label);
@@ -46,8 +44,6 @@ namespace PurTools.SkillWeek
         /// <param name="skillName">Name of the SkillWeek's subject skill</param>
         /// <param name="directory">Optional directory path where the SkillWeek data should be stored</param>
         /// <param name="label">Optional custom name for the SkillWeek</param>
-        /// <param name="entryThreshold">The minimum amount of experience that participants must earn each day
-        ///                              in order to have particpated</param>
         /// <returns>Newly created SkillWeek object</returns>
         public static async Task<SkillWeek> CreateAsync(string skillName, string directory, string label)
         {
