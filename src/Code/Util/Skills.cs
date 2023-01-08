@@ -18,23 +18,21 @@
 
         /// <param name="skillName">Name of the skill to get the index of</param>
         /// <returns>Index of the specified skill</returns>
-        /// <exception cref="ArgumentException"></exception>
         internal static int GetSkillIndex(string skillName)
         {
-            skillName = skillName.ToLower();
-
-            if (!SkillNames.Contains(skillName))
-            {
-                string error = $"No skill with name {skillName} exists.";
-                Logger.Current.Error(error);
-                throw new ArgumentException(error);
-            }
-
             // Check if _skillIndexes is populated
             // If not, populate
             if (_skillIndexes.Count == 0)
                 for (int i = 0; i < SkillNames.Length; i++)
                     _skillIndexes.Add(SkillNames[i], i);
+
+            skillName = skillName.ToLower();
+
+            if (!SkillNames.Contains(skillName))
+            {
+                Logger.Current.Error($"No skill with name {skillName} exists.");
+                return -1;
+            }
 
             return _skillIndexes[skillName];
         }
