@@ -96,9 +96,7 @@ namespace PurTools.SkillWeek
                 return null;
             }
 
-            var skillWeek = new SkillWeek(label);
-            await skillWeek.LoadFromFileAsync(path);
-
+            var skillWeek = await new SkillWeek(label).LoadFromFileAsync(path);
             return skillWeek;
         }
 
@@ -124,7 +122,7 @@ namespace PurTools.SkillWeek
         /// </summary>
         /// <param name="path">Path to the SkillWeek save file</param>
         /// <exception cref="Exception"></exception>
-        private async Task LoadFromFileAsync(string path)
+        private async Task<SkillWeek?> LoadFromFileAsync(string path)
         {
             using var stream = File.OpenRead(path);
 
@@ -132,7 +130,7 @@ namespace PurTools.SkillWeek
             {
                 string error = $"{path} is an empty file. The skillweek could not be loaded.";
                 Logger.Current.Error(error);
-                throw new Exception(error);
+                return null;
             }
 
             var deserialzeTask = await JsonSerializer.DeserializeAsync<SkillWeekData>(stream);
@@ -141,10 +139,11 @@ namespace PurTools.SkillWeek
             {
                 string error = $"Something went wrong whilst loading {path}.";
                 Logger.Current.Error(error);
-                throw new Exception(error);
+                return null;
             }
 
             _skillWeekData = deserialzeTask;
+            return this;
         }
 
         /// <summary>
