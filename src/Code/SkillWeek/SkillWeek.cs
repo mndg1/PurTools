@@ -22,12 +22,11 @@ namespace PurTools.SkillWeek
             }
         }
 
-        private readonly string _label;
-        public string Label { get => _label; }
+        public readonly string Label;
 
         private SkillWeekData _skillWeekData = new();
 
-        internal SkillWeek(string label) => _label = label;
+        internal SkillWeek(string label) => Label = label;
 
         /// <summary>
         /// Creates a new SkillWeek object
@@ -159,7 +158,7 @@ namespace PurTools.SkillWeek
             if(!Directory.Exists(directory))
                 Directory.CreateDirectory(directory);
 
-            using var writer = File.Create(Path.Combine(directory, $"{_label}.json"));
+            using var writer = File.Create(Path.Combine(directory, $"{Label}.json"));
             await JsonSerializer.SerializeAsync(writer, _skillWeekData);
             await writer.DisposeAsync();
         }
