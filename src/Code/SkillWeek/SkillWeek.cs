@@ -6,22 +6,6 @@ namespace PurTools.SkillWeek
 {
     public class SkillWeek
     {
-        private static string DefaultDirectory
-        {
-            get
-            {
-                var dir = ConfigurationManager.AppSettings["skillWeekDirectory"];
-
-                if (string.IsNullOrEmpty(dir))
-                    dir = Path.Combine(Directory.GetCurrentDirectory(), "SkillWeek");
-
-                if (!Directory.Exists(dir))
-                    Directory.CreateDirectory(dir);
-
-                return dir;
-            }
-        }
-
         public readonly string Label;
 
         private SkillWeekData _skillWeekData = new();
@@ -34,8 +18,8 @@ namespace PurTools.SkillWeek
         /// <param name="skillName">Name of the SkillWeek's subject skill</param>
         /// <param name="label">Optional custom name for the SkillWeek</param>
         /// <returns>Newly created SkillWeek object</returns>
-        public static async Task<SkillWeek?> CreateAsync(string skillName, string label = "") 
-            => await CreateAsync(skillName, DefaultDirectory, label);
+        public static async Task<SkillWeek?> CreateAsync(string skillName, string label = "")
+            => await CreateAsync(skillName, GetDefaultDirectory(), label);
 
         /// <summary>
         /// Creates a new SkillWeek object
@@ -71,7 +55,7 @@ namespace PurTools.SkillWeek
         /// </summary>
         /// <param name="label">Name of the SkillWeek to load</param>
         /// <returns>SkillWeek loaded with the saved data</returns>
-        public static async Task<SkillWeek?> LoadAsync(string label) => await LoadAsync(label, DefaultDirectory);
+        public static async Task<SkillWeek?> LoadAsync(string label) => await LoadAsync(label, GetDefaultDirectory());
 
         /// <summary>
         /// Loads an existing SkillWeek object
@@ -83,7 +67,7 @@ namespace PurTools.SkillWeek
         {
             string path = Path.Combine(directory, $"{label}.json");
 
-            if(!Directory.Exists(directory))
+            if (!Directory.Exists(directory))
             {
                 Logger.Current.Error($"Directory \"{directory}\" does not exits.");
                 return null;
@@ -99,6 +83,19 @@ namespace PurTools.SkillWeek
             return skillWeek;
         }
 
+        private static string GetDefaultDirectory()
+        {
+            var dir = ConfigurationManager.AppSettings["skillWeekDirectory"];
+
+            if (string.IsNullOrEmpty(dir))
+                dir = Path.Combine(Directory.GetCurrentDirectory(), "SkillWeek");
+
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+
+            return dir;
+        }
+
         /// <summary>
         /// Changes the default directory in which SkillWeek data is stored
         /// </summary>
@@ -107,7 +104,7 @@ namespace PurTools.SkillWeek
         public static void ChangeDefaultDirectory(string newPath, bool migrate = true)
         {
             if (migrate)
-                Directory.Move(DefaultDirectory, newPath);
+                Directory.Move(GetDefaultDirectory(), newPath);
 
             var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             config.AppSettings.Settings.Remove("skillWeekDirectory");
@@ -148,14 +145,14 @@ namespace PurTools.SkillWeek
         /// <summary>
         /// Saves the SkillWeek's data to a JSON file
         /// </summary>
-        public async Task SaveAsync() => await SaveAsync(DefaultDirectory);
+        public async Task SaveAsync() => await SaveAsync(GetDefaultDirectory());
 
         /// <summary>
         /// Saves the SkillWeek's data to a JSON file
         /// </summary>
         public async Task SaveAsync(string directory)
         {
-            if(!Directory.Exists(directory))
+            if (!Directory.Exists(directory))
                 Directory.CreateDirectory(directory);
 
             using var writer = File.Create(Path.Combine(directory, $"{Label}.json"));
