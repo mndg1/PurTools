@@ -1,6 +1,6 @@
 ﻿namespace PurTools;
 
-internal static class RuneScapeAPIs
+internal static class RuneScapeService
 {
     private static readonly HttpClient _httpClient = new();
 

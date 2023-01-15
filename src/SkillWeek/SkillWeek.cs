@@ -173,7 +173,7 @@ public class SkillWeek
         }
 
         // Get data from RuneScape's HiScoresLite API
-        string[]? stats = await RuneScapeAPIs.HiScoresLite(name);
+        string[]? stats = await RuneScapeService.HiScoresLite(name);
 
         // Stats can be null if the API call failed
         // There is no need to log an error or message as that is done inside the RuneScapeAPIs.HiScoresLite() method
@@ -210,7 +210,7 @@ public class SkillWeek
             return;
 
         // Get data from RuneScape's HiScoresLite API
-        string[]? stats = await RuneScapeAPIs.HiScoresLite(name);
+        string[]? stats = await RuneScapeService.HiScoresLite(name);
 
         // Stats can be null if the API call failed
         // There is no need to log an error or message as that is done inside the RuneScapeAPIs.HiScoresLite() method
