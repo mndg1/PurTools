@@ -19,7 +19,7 @@ public class SkillWeek
     /// <param name="label">Optional custom name for the SkillWeek</param>
     /// <returns>Newly created SkillWeek object</returns>
     public static async Task<SkillWeek?> CreateAsync(string skillName, string label = "")
-        => await CreateAsync(skillName, GetDefaultDirectory(), label);
+        => await CreateAsync(skillName, label, GetDefaultDirectory());
 
     /// <summary>
     /// Creates a new SkillWeek object
