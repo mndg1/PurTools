@@ -2,7 +2,7 @@
 
 internal static class Skills
 {
-    internal static readonly string[] SkillNames =
+    internal static readonly List<string> SkillNames = new()
     {
         "overall", "attack", "defence", "strength",
         "constitution", "ranged", "prayer", "magic",
@@ -14,18 +14,10 @@ internal static class Skills
         "invention", "archaeology"
     };
 
-    private static readonly Dictionary<string, int> _skillIndexes = new();
-
     /// <param name="skillName">Name of the skill to get the index of</param>
     /// <returns>Index of the specified skill</returns>
     internal static int GetSkillIndex(string skillName)
     {
-        // Check if _skillIndexes is populated
-        // If not, populate
-        if (_skillIndexes.Count == 0)
-            for (int i = 0; i < SkillNames.Length; i++)
-                _skillIndexes.Add(SkillNames[i], i);
-
         skillName = skillName.ToLower();
 
         if (!SkillNames.Contains(skillName))
@@ -34,6 +26,6 @@ internal static class Skills
             return -1;
         }
 
-        return _skillIndexes[skillName];
+        return SkillNames.IndexOf(skillName);
     }
 }
