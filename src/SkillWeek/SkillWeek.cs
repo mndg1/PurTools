@@ -25,10 +25,10 @@ public class SkillWeek
     /// Creates a new SkillWeek object
     /// </summary>
     /// <param name="skillName">Name of the SkillWeek's subject skill</param>
-    /// <param name="directory">Optional directory path where the SkillWeek data should be stored</param>
     /// <param name="label">Optional custom name for the SkillWeek</param>
+    /// <param name="directory">Optional directory path where the SkillWeek data should be stored</param>
     /// <returns>Newly created SkillWeek object</returns>
-    public static async Task<SkillWeek?> CreateAsync(string skillName, string directory, string label)
+    public static async Task<SkillWeek?> CreateAsync(string skillName, string label, string directory)
     {
         // Checks if a skill with skillName exists
         if (Skills.GetSkillIndex(skillName) == -1)
